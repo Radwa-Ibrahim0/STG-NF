@@ -12,7 +12,7 @@ from dataset import get_dataset_and_loader
 from utils.train_utils import dump_args, init_model_params
 from utils.scoring_utils import score_dataset
 from utils.train_utils import calc_num_of_params
-
+from sklearn.metrics import classification_report
 
 def main():
     parser = init_parser()
@@ -49,6 +49,14 @@ def main():
 
     normality_scores = trainer.test()
     auc, scores = score_dataset(normality_scores, dataset["test"].metadata, args=args)
+
+    # Convert normality scores into binary predictions
+    predictions = (normality_scores > 0.5).astype(int)  # Assuming 0.5 as threshold for classification
+    true_labels = dataset["test"].metadata['labels']  # Adjust based on how labels are stored
+
+    # Classification report
+    report = classification_report(true_labels, predictions)
+    print(report)
 
     # Logging and recording results
     print("\n-------------------------------------------------------")
