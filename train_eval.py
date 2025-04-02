@@ -51,6 +51,12 @@ def main():
     auc, scores = score_dataset(normality_scores, dataset["test"].metadata, args=args)
 
     # Convert normality scores into binary predictions
+    print(normality_scores)
+    print("-------------------------------------------------------")
+    print(dataset["test"].metadata)
+    print("-------------------------------------------------------")
+    print(dataset["test"].metadata['labels'])
+    print("-------------------------------------------------------")
     predictions = (normality_scores > 0.5).astype(int)  # Assuming 0.5 as threshold for classification
     true_labels = dataset["test"].metadata['labels']  # Adjust based on how labels are stored
 
