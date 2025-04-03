@@ -50,9 +50,9 @@ def main():
     auc, scores_np = score_dataset(normality_scores, dataset["test"].metadata, args=args)
 
     # Convert scores to binary predictions
-    gt_np = np.concatenate([np.array(meta.get("label", [])) for meta in dataset["test"].metadata])
     print("Metadata sample:", dataset["test"].metadata[:5])  # Check first 5 entries
-    
+    gt_np = dataset["test"].metadata[:, 1].astype(int)
+      
     # Print Precision-Recall Thresholds
     precision, recall, thresholds_pr = precision_recall_curve(gt_np, scores_np)
     print("\nPrecision-Recall Thresholds:")
